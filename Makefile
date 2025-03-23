@@ -1,38 +1,57 @@
-.PHONY: all build test clean run-nplus1 help
+.PHONY: help build test clean run-isolation run-nplus1
 
 # Default target
-all: build
+.DEFAULT_GOAL := help
 
-# Build all labs
-build:
-	@echo "Building all labs..."
+help: ## Show this help message
+	@echo 'Usage:'
+	@echo '  make <target>'
+	@echo ''
+	@echo 'Targets:'
+	@awk '/^[a-zA-Z\-_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = substr($$1, 0, index($$1, ":")-1); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			printf "  %-20s %s\n", helpCommand, helpMessage; \
+		} \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
+
+build: ## Build all labs
+	@echo "Building isolation levels lab..."
+	@cd isolation-levels-lab && go build
+	@echo "Building GORM N+1 lab..."
 	@cd gorm-nplus1-lab && go build
 
-# Run tests
-test:
-	@echo "Running tests..."
+test: ## Run tests for all labs
+	@echo "Running tests for isolation levels lab..."
+	@cd isolation-levels-lab && go test -v
+	@echo "Running tests for GORM N+1 lab..."
 	@cd gorm-nplus1-lab && go test -v
 
-# Clean build artifacts
-clean:
-	@echo "Cleaning build artifacts..."
-	@rm -f gorm-nplus1-lab/test.db
-	@rm -f gorm-nplus1-lab/gorm-nplus1-lab
+clean: ## Clean build artifacts
+	@echo "Cleaning isolation levels lab..."
+	@cd isolation-levels-lab && go clean
+	@echo "Cleaning GORM N+1 lab..."
+	@cd gorm-nplus1-lab && go clean
 
-# Run the N+1 problem lab
-run-nplus1:
-	@echo "Running N+1 problem lab..."
+run-isolation: ## Run the isolation levels lab
+	@echo "Starting isolation levels lab..."
+	@cd isolation-levels-lab && go run main.go
+
+run-nplus1: ## Run the GORM N+1 query lab
+	@echo "Starting GORM N+1 lab..."
 	@cd gorm-nplus1-lab && go run main.go
 
-# Show help
-help:
-	@echo "Available targets:"
-	@echo "  make all        - Build all labs (default)"
-	@echo "  make build      - Build all labs"
-	@echo "  make test       - Run tests"
-	@echo "  make clean      - Clean build artifacts"
-	@echo "  make run-nplus1 - Run the N+1 problem lab"
-	@echo "  make help       - Show this help message"
+lint: ## Run linter on all labs
+	@echo "Linting isolation levels lab..."
+	@cd isolation-levels-lab && golangci-lint run
+	@echo "Linting GORM N+1 lab..."
+	@cd gorm-nplus1-lab && golangci-lint run
 
-# Set default target
-.DEFAULT_GOAL := help 
+tidy: ## Run go mod tidy on all labs
+	@echo "Running go mod tidy on isolation levels lab..."
+	@cd isolation-levels-lab && go mod tidy
+	@echo "Running go mod tidy on GORM N+1 lab..."
+	@cd gorm-nplus1-lab && go mod tidy 

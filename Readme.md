@@ -1,102 +1,49 @@
 # Go Database Playground
 
-A collection of Go database examples and experiments by [@ishanjayawardena](https://github.com/ishanjayawardena).
+A collection of Go projects demonstrating various database concepts and patterns.
 
-## Structure
+## Projects
 
-### Current Labs
+### 1. Isolation Levels Lab
+A demonstration of PostgreSQL transaction isolation levels and their effects on concurrent transactions. This lab specifically focuses on:
+- READ COMMITTED vs SERIALIZABLE isolation levels
+- ACID Rain attack vulnerability
+- Money transfer scenario with concurrent transactions
+- Connection pooling and transaction management
 
-#### gorm-nplus1-lab
-A lab demonstrating the N+1 query problem in GORM and its solutions:
-- N+1 problem demonstration
-- Preload solution
-- JOIN solution with aggregation
+See [isolation-levels-lab/README.md](isolation-levels-lab/README.md) for detailed information.
 
-### Planned Labs
+### 2. GORM N+1 Query Lab
+A demonstration of the N+1 query problem using GORM and different solutions to prevent it.
 
-More labs will be added over time to demonstrate various database concepts and techniques:
+See [gorm-nplus1-lab/README.md](gorm-nplus1-lab/README.md) for detailed information.
 
-#### Transaction Isolation Levels
-- Read Uncommitted
-- Read Committed
-- Repeatable Read
-- Serializable
-- Handling race conditions
+## Prerequisites
 
-#### Database Partitioning
-- Table partitioning
-- Range partitioning
-- List partitioning
-- Hash partitioning
-- Partition pruning
-
-#### Database Sharding
-- Horizontal sharding
-- Vertical sharding
-- Shard key selection
-- Cross-shard queries
-- Shard rebalancing
-
-#### Connection Pooling
-- Pool sizing optimization
-- Connection lifecycle
-- High concurrency handling
-- Connection health checks
-
-#### Query Optimization
-- Index strategies
-- Query planning
-- Execution optimization
-- Performance tuning
+- Go 1.21 or later
+- Docker and Docker Compose
+- PostgreSQL client (optional)
 
 ## Getting Started
 
-1. Clone the repository:
-```bash
-git clone https://github.com/ishanjayawardena/go-db-playground.git
-cd go-db-playground
+Each lab is a self-contained module with its own setup instructions. Please refer to the individual lab READMEs for specific setup and running instructions.
+
+## Project Structure
+
 ```
-
-2. Run a specific lab:
-```bash
-# Run the N+1 problem lab
-make run-nplus1
-```
-
-## Development
-
-### Prerequisites
-- Go 1.21 or later
-- Make
-
-### Available Make Commands
-```bash
-make help        # Show available commands
-make build       # Build all labs
-make test        # Run tests
-make clean       # Clean build artifacts
-make run-nplus1  # Run the N+1 problem lab
-```
-
-### Linting
-The project uses golangci-lint for code quality checks. Linting runs automatically on:
-- Push to main branch
-- Pull requests
-
-To run linting locally:
-```bash
-golangci-lint run
+.
+├── isolation-levels-lab/    # Transaction isolation levels demonstration
+├── gorm-nplus1-lab/        # GORM N+1 query problem demonstration
+└── README.md              # This file
 ```
 
 ## Contributing
 
-Contributions are welcome! If you'd like to:
-1. Add a new lab
-2. Improve existing labs
-3. Fix bugs
-4. Add documentation
-
-Please feel free to submit a pull request.
+Feel free to contribute by:
+1. Creating new labs
+2. Improving existing labs
+3. Fixing bugs
+4. Adding documentation
 
 ## License
 
