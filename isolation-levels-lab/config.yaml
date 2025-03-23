@@ -1,0 +1,7 @@
+database:
+  host: localhost
+  port: 5432
+  dbname: isolation_db
+  user: isolation_user
+  password: isolation_pass
+  sslmode: disable 
